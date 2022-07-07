@@ -12,7 +12,7 @@ export default function HomeScreen({ navigation }) {
   const [listDevices, setlistDevices] = useState([]);
 
   const  readData = () => {
-    const dbRef = ref(db, 'devices');
+    const dbRef = ref(db, 'motor/');
     onValue(dbRef, (snapshot) => {
         let records = [];
           snapshot.forEach(childSnapshot => {
@@ -50,10 +50,10 @@ export default function HomeScreen({ navigation }) {
           renderItem={({ item }) => (
             <>
               <TouchableOpacity   onPress={ () => {
-                      set(ref(db, 'devices/' + item.id), {
-                          com: item.com,
+                      set(ref(db, 'motor/' + item.id), {
+
                           status: !item.status,
-                          pin : item.pin
+                          
                         });
                     }}>
                   <Image source={ 
@@ -62,7 +62,7 @@ export default function HomeScreen({ navigation }) {
                         style={{ width: 100, height: 100}}
                     />
               </TouchableOpacity> 
-            <Text>{item.area}  | { String(item.status) }</Text>
+          
             </>
           )}
       />
