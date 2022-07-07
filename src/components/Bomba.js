@@ -9,7 +9,7 @@ const Bomba = (props) => {
         <TouchableOpacity 
             style={{height:60,width:100,}}>
             <Image source={ 
-                          require('../../img/motoron.png') 
+                          require('../../img/bomba.png') 
                                   } 
                     style={{ width: 70, height: 70, marginTop:-5}}
             />
