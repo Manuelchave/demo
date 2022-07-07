@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import db from '../src/firebase/config';
 import {ref, onValue, set} from "firebase/database";
-import Motor from '../src/components/Motor';
+import Bomba from '../src/components/Bomba';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreenBomba({ navigation }) {
 
 const [listDevices, setlistDevices] = useState([]);
 
-  const  motor = () => {
-    const dbRefM = ref(db, 'motor/');
+  const  bomba = () => {
+    const dbRefM = ref(db, 'bomba/');
     onValue(dbRefM, (snapshot) => {
         let records = [];
           snapshot.forEach(childSnapshot => {
@@ -19,7 +19,7 @@ const [listDevices, setlistDevices] = useState([]);
     })
   }  
     useEffect(()=>{
-      motor();
+      bomba();
     }, [])
     return(
       <>
@@ -43,7 +43,7 @@ const [listDevices, setlistDevices] = useState([]);
           data={listDevices}
           keyExtractor={(item, index) => String(index)}
           renderItem={({ item }) => (
-            <Motor item={item} navigation={navigation}/>
+            <Bomba item={item} navigation={navigation}/>
           )}
           
       />
