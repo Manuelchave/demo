@@ -15,7 +15,9 @@ const Motor = (props) => {
             />
         </TouchableOpacity>
         <TouchableOpacity   onPress={ () => {
+          
                             set(ref(db, 'motor/' + props.item.id), {
+                              
                                 status: !props.item.status,
                                 });
                             }}>
@@ -24,6 +26,7 @@ const Motor = (props) => {
                                         : require('../../img/imagen_off.png') } 
                                 style={{marginLeft:65, width:65, height:35, marginTop:13}}
                             />
+                                
         </TouchableOpacity>
 
       

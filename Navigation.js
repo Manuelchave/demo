@@ -6,7 +6,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 //Screens
 import HomeScreen from"./screens/HomeScreen";
 import SettingsScreen from"./screens/SettingsScreen";
-import HomeScreenBomba from "./screens/HomeScreenBomba";
+
+
 
 
 
@@ -39,22 +40,7 @@ function MyTabs(){
                 color:"#dabb54"
               },
             
-        }}/>
-        <Tab.Screen name="Bomba" component={HomeScreenBomba}
-        options={{
-            tabBarIcon: ({color, size})=>(
-                <MaterialCommunityIcons name="home" size={24} color={color} />
-            ),
-            headerShown: false,
-            headerStyle: {
-                backgroundColor: '#2a2e30',
-         
-            },
-            headerTitleStyle: {
-                color:"#dabb54"
-              },
-            
-        }}/>
+        }}/>     
     
        
         <Tab.Screen name="Settings" styles={{color:"red"}} component={SettingsScreen}

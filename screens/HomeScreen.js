@@ -3,11 +3,14 @@ import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Image
 import db from '../src/firebase/config';
 import {ref, onValue, set} from "firebase/database";
 import Motor from '../src/components/Motor';
+import Temp from '../src/components/Temp';
+import Bomba from '../src/components/Bomba';
 
 export default function HomeScreen({ navigation }) {
 
 const [listDevices, setlistDevices] = useState([]);
-
+const [listTemp, setlistTemp] = useState([]);
+const [listBomba, setlistBomba] = useState([]);
   const  motor = () => {
     const dbRefM = ref(db, 'motor/');
     onValue(dbRefM, (snapshot) => {
@@ -18,8 +21,30 @@ const [listDevices, setlistDevices] = useState([]);
         setlistDevices(records)
     })
   }  
+  const  dataTemp = () => {
+    const dbRefT = ref(db, 'temp/');
+    onValue(dbRefT, (snapshot) => {
+        let records = [];
+          snapshot.forEach(childSnapshot => {
+              records.push({...childSnapshot.val(), id: childSnapshot.key })
+          });
+        setlistTemp(records)
+    })
+  }
+  const  bomba = () => {
+    const dbRefB = ref(db, 'bomba/');
+    onValue(dbRefB, (snapshot) => {
+        let records = [];
+          snapshot.forEach(childSnapshot => {
+              records.push({...childSnapshot.val(), id: childSnapshot.key })
+          });
+        setlistBomba(records)
+    })
+  } 
     useEffect(()=>{
       motor();
+      bomba();
+      dataTemp();
     }, [])
     return(
       <>
@@ -32,7 +57,7 @@ const [listDevices, setlistDevices] = useState([]);
               <Text  
               style={{marginTop:-56,
               textAlign:"center", 
-              marginRight:100, 
+              marginRight:80, 
               fontSize:20,
               color:"#dabb54"}}
               >Urban Cooler</Text>
@@ -49,6 +74,29 @@ const [listDevices, setlistDevices] = useState([]);
       />
   
     </SafeAreaView>
+
+    <SafeAreaView style={styles.container}>
+      <FlatList
+          data={listBomba}
+          keyExtractor={(item, index) => String(index)}
+          renderItem={({ item }) => (
+            <Bomba item={item} navigation={navigation}/>
+          )}
+          
+      />
+  
+    </SafeAreaView>
+
+    <SafeAreaView style={styles.container}>
+      <FlatList
+          data={listTemp}
+          keyExtractor={(item, index) => String(index)}
+          renderItem={({ item }) => (
+            <Temp item={item} navigation={navigation}/>
+          )}
+      />
+    </SafeAreaView>
+
     </>
     )
   
