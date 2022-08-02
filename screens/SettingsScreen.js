@@ -20,11 +20,11 @@ const SettingsScreeen = () => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#2a2e30',
+      backgroundColor: '#f2f2f2',
     },
     nav: {
         flex:1,
-        backgroundColor: '#2a2e30',
+        backgroundColor: '#f2f2f2',
       }
   });
   

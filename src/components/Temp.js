@@ -1,19 +1,18 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import db from '../firebase/config';
-import {ref, set} from "firebase/database";
+
 
 const Temp = (props) => {
   return (
      <View style={styles.listItem}>
-         <TouchableOpacity   onPress={ () => {
-                      set(ref(db, 'temp/' + props.item.id), {
-                          c: props.item.c,
-                          h: props.item.h
-                        });
-                    }}>
-                      <Text style={{fontWeight:"bold", color:"#dabb54"}}>Temperatura: {props.item.c}</Text>
-                      <Text style={{fontWeight:"bold", color:"#dabb54"}}>Humedad: {props.item.h}</Text>
+         <TouchableOpacity   >
+                      <Text style={{
+                                    color:"#4d4d4d", 
+                                    fontSize:37,
+                                    alignSelf:"center",
+                                    margin:-30,
+                                    marginTop:0}}>
+                                    {props.item.c}°C</Text>
                           
     </TouchableOpacity>
       
@@ -23,12 +22,16 @@ const Temp = (props) => {
 
 const styles = StyleSheet.create({
   listItem:{
-    margin:10,
-    padding:10,
-    backgroundColor:"#42484b",
+    
+    padding:60,
+    backgroundColor:"#fff",
     alignSelf:"center",
-    borderRadius:60,
-    width:"100%"
+    borderRadius:100,
+    width: 200, height: 200,
+    borderColor:"#008dff",
+    borderWidth:5
+    
+    
   }
 });
 

@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Image } from 'react-native';
 import db from '../src/firebase/config';
 import {ref, onValue, set} from "firebase/database";
-import Motor from '../src/components/Motor';
 import Temp from '../src/components/Temp';
-import Bomba from '../src/components/Bomba';
+import Power from '../src/components/Power';
+import Velocidad from '../src/components/Velocidad';
 
 export default function HomeScreen({ navigation }) {
 
-const [listDevices, setlistDevices] = useState([]);
+const [listPower, setlistPower] = useState([]);
 const [listTemp, setlistTemp] = useState([]);
-const [listBomba, setlistBomba] = useState([]);
-  const  motor = () => {
-    const dbRefM = ref(db, 'motor/');
+const [listvelocidad, setlistvelocidad] = useState([]);
+
+  const  power = () => {
+    const dbRefM = ref(db, 'power/');
     onValue(dbRefM, (snapshot) => {
         let records = [];
           snapshot.forEach(childSnapshot => {
               records.push({...childSnapshot.val(), id: childSnapshot.key })
           });
-        setlistDevices(records)
+        setlistPower(records)
     })
   }  
+
   const  dataTemp = () => {
     const dbRefT = ref(db, 'temp/');
     onValue(dbRefT, (snapshot) => {
@@ -31,86 +33,101 @@ const [listBomba, setlistBomba] = useState([]);
         setlistTemp(records)
     })
   }
-  const  bomba = () => {
-    const dbRefB = ref(db, 'bomba/');
-    onValue(dbRefB, (snapshot) => {
+  const  velocidad = () => {
+    const dbRefT = ref(db, 'velocidad/');
+    onValue(dbRefT, (snapshot) => {
         let records = [];
           snapshot.forEach(childSnapshot => {
               records.push({...childSnapshot.val(), id: childSnapshot.key })
           });
-        setlistBomba(records)
+        setlistvelocidad(records)
     })
-  } 
+  }
+
+
     useEffect(()=>{
-      motor();
-      bomba();
+      power();
       dataTemp();
-    }, [])
+      velocidad();
+      }, [])
+
     return(
       <>
        <View style={styles.nav}>           
             <Image source={ 
-                          require('../img/logo.png') 
-                                  } 
-                    style={{ width: 80, height: 80, marginTop:50,   alignItems: "baseline"}}
+            require('../img/logo.png') 
+            }style={{ width: 65, height: 65, marginTop:60,   alignItems: "baseline"}}
             />
               <Text  
-              style={{marginTop:-56,
-              textAlign:"center", 
-              marginRight:80, 
+              style={{marginTop:-50,
+                alignSelf:"center", 
+              marginRight:-8, 
               fontSize:20,
-              color:"#dabb54"}}
+              color:"#008dff"}}
               >Urban Cooler</Text>
          </View>
+      <SafeAreaView style={styles.container}>
+        <FlatList style={{margin:-20}}
+            data={listTemp}
+            keyExtractor={(item, index) => String(index)}
+            renderItem={({ item }) => (
+              <Temp item={item} navigation={navigation}/>
+            )}
+        />
+      </SafeAreaView>
 
       <SafeAreaView style={styles.container}>
-      <FlatList
-          data={listDevices}
-          keyExtractor={(item, index) => String(index)}
-          renderItem={({ item }) => (
-            <Motor item={item} navigation={navigation}/>
-          )}
-          
-      />
-  
-    </SafeAreaView>
+        <FlatList style={{marginTop:-40}}
+            data={listPower}
+            keyExtractor={(item, index) => String(index)}
+            renderItem={({ item }) => (
+              <Power item={item} navigation={navigation}/>
+            )}
+        />
+      </SafeAreaView>
 
-    <SafeAreaView style={styles.container}>
-      <FlatList
-          data={listBomba}
-          keyExtractor={(item, index) => String(index)}
-          renderItem={({ item }) => (
-            <Bomba item={item} navigation={navigation}/>
-          )}
-          
-      />
-  
-    </SafeAreaView>
+      <SafeAreaView style={styles.vel}>
+      <Text style={styles.leableV}>Velocidad</Text>
+      <FlatList 
+       
+            data={listvelocidad}
+            keyExtractor={(item, index) => String(index)}
+            renderItem={({ item }) => (
+              <Velocidad item={item} navigation={navigation}/>
+            )}
+        />
+      </SafeAreaView>
 
-    <SafeAreaView style={styles.container}>
-      <FlatList
-          data={listTemp}
-          keyExtractor={(item, index) => String(index)}
-          renderItem={({ item }) => (
-            <Temp item={item} navigation={navigation}/>
-          )}
-      />
-    </SafeAreaView>
+   
 
     </>
-    )
-  
- }
+    )}
 
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor: '#2a2e30',
+      backgroundColor: '#f2f2f2',
       alignItems: 'center',
-      padding: 10,      
+      margin: 30,    
+      marginTop:-30,
+      
     },
     nav: {
       flex:1,
-      backgroundColor: '#2a2e30',
+      backgroundColor: '#f2f2f2',
+    },
+    vel:{
+      flex:1,
+
+      padding:20
+    },
+    leableV:{
+      flex:-0.8,
+      color:"#4d4d4d",
+      textAlign: "center",
+      fontSize:22,
+      marginTop:-50
+  
     }
+    
 });
