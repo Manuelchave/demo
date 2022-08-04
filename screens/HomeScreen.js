@@ -5,12 +5,14 @@ import {ref, onValue, set} from "firebase/database";
 import Temp from '../src/components/Temp';
 import Power from '../src/components/Power';
 import Velocidad from '../src/components/Velocidad';
+import Bomba from '../src/components/Bomba';
 
 export default function HomeScreen({ navigation }) {
 
 const [listPower, setlistPower] = useState([]);
 const [listTemp, setlistTemp] = useState([]);
 const [listvelocidad, setlistvelocidad] = useState([]);
+const [listBomba, setlistBomba] = useState([]);
 
   const  power = () => {
     const dbRefM = ref(db, 'power/');
@@ -43,12 +45,23 @@ const [listvelocidad, setlistvelocidad] = useState([]);
         setlistvelocidad(records)
     })
   }
+  const  bomba = () => {
+    const dbRefM = ref(db, 'bomba/');
+    onValue(dbRefM, (snapshot) => {
+        let records = [];
+          snapshot.forEach(childSnapshot => {
+              records.push({...childSnapshot.val(), id: childSnapshot.key })
+          });
+        setlistBomba(records)
+    })
+  }  
 
 
     useEffect(()=>{
       power();
       dataTemp();
       velocidad();
+      bomba()
       }, [])
 
     return(
@@ -67,7 +80,7 @@ const [listvelocidad, setlistvelocidad] = useState([]);
               >Urban Cooler</Text>
          </View>
       <SafeAreaView style={styles.container}>
-        <FlatList style={{margin:-20}}
+        <FlatList style={{marginTop:-48}}
             data={listTemp}
             keyExtractor={(item, index) => String(index)}
             renderItem={({ item }) => (
@@ -97,6 +110,15 @@ const [listvelocidad, setlistvelocidad] = useState([]);
             )}
         />
       </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <FlatList style={{marginTop:-70}}
+            data={listBomba}
+            keyExtractor={(item, index) => String(index)}
+            renderItem={({ item }) => (
+              <Bomba item={item} navigation={navigation}/>
+            )}
+        />
+      </SafeAreaView>
 
    
 
@@ -105,28 +127,27 @@ const [listvelocidad, setlistvelocidad] = useState([]);
 
 const styles = StyleSheet.create({
     container: {
+
       flex:1,
       backgroundColor: '#f2f2f2',
       alignItems: 'center',
-      margin: 30,    
-      marginTop:-30,
+   
       
     },
     nav: {
       flex:1,
       backgroundColor: '#f2f2f2',
+      marginTop:-10
     },
     vel:{
       flex:1,
-
-      padding:20
     },
     leableV:{
       flex:-0.8,
       color:"#4d4d4d",
       textAlign: "center",
       fontSize:22,
-      marginTop:-50
+      marginTop:-30
   
     }
     

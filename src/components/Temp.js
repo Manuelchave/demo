@@ -10,8 +10,7 @@ const Temp = (props) => {
                                     color:"#4d4d4d", 
                                     fontSize:37,
                                     alignSelf:"center",
-                                    margin:-30,
-                                    marginTop:0}}>
+                                    marginTop:5}}>
                                     {props.item.c}°C</Text>
                           
     </TouchableOpacity>
@@ -22,7 +21,7 @@ const Temp = (props) => {
 
 const styles = StyleSheet.create({
   listItem:{
-    
+   
     padding:60,
     backgroundColor:"#fff",
     alignSelf:"center",

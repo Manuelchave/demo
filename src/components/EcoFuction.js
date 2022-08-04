@@ -1,15 +1,28 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import db from '../firebase/config';
 import {ref, set} from "firebase/database";
 
-const Power = (props) => {
-  
-  return (
-     <View style={styles.listItem}>
+function EcoFuction(props) {
+
+    useEffect(() => {
+        var counter = props.item.status.true;
+        
+        var oneSecInterval = setInterval(() => {
+            console.log('1 sec.')
+            counter ++;
+
+            if (counter == props.item.status.true) {
+                clearInterval(oneSecInterval);
+            }
+        }, 1000);
+    }, [])
+
+    return (
+        <View style={styles.listItem}>
         <TouchableOpacity   onPress={ () => {
           
-                            set(ref(db, 'power/' + props.item.id), {
+                            set(ref(db, 'bomba/' + props.item.id), {
                               
                                 status: !props.item.status,
                                 });
@@ -24,22 +37,21 @@ const Power = (props) => {
 
       
     </View>
-  )
+    )
 }
-
 const styles = StyleSheet.create({
-  listItem:{
-    marginTop:70,
-    backgroundColor:"#fff",
-    flex:1,
-    alignSelf:"center",
-    borderRadius:100,
-    padding:10,
-    borderColor:"red"
-        }
-      },
-      
-      );
+    listItem:{
+      marginTop:50,
+      backgroundColor:"#fff",
+      width:"100%",
+      flex:1,
+      alignSelf:"center",
+      borderRadius:100,
+      padding:10,
+      borderColor:"red"
+          }
+        },
+        
+        );
 
-
-export default Power
+export default EcoFuction
